@@ -1,5 +1,6 @@
 ---@class Root.modules
 ---@field loaded table<string, any>
+---@field Load function
 Root.modules = {}
 Root.modules.loaded = {}
 
