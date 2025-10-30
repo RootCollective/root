@@ -1,30 +1,46 @@
 ---@class Root
 ---@field side 'server' | 'client'
 ---@field resource_name string
+---@field lang string
 ---@field modules table<string, any>
+---@field locale table<string, string>
 ---@field LoadFile function
 local Root = {}
 local _side <const> = (IsDuplicityVersion() and 'server') or 'client'
 local _resource_name <const> = GetCurrentResourceName()
+local _lang = GetConvar('root:lang', 'en')
 
 --- Load a file from the resource.
 ---@param path string
-local function loadFile(path)
+---@param type string
+local function loadFile(path, type)
     if not path then
         return warn('loadFile: path is nil')
     end
 
-    local file_path = ("%s.lua"):format(path)
+    if not type then
+        type = 'lua'
+    end
+
+    local file_path = ("%s.%s"):format(path, type)
     local file = LoadResourceFile(_resource_name, file_path)
 
     if not file then
         return warn('loadFile: file not found at path ^3' .. file_path .. '^7')
     end
 
-    local _file = load(file)()
+    local _file
 
-    if not _file then
-        return warn('loadFile: file failed to load at path ^3' .. file_path .. '^7')
+    if type == 'json' then
+        _file = json.decode(file)
+        if not _file then
+            return warn('loadFile: failed to decode JSON at path ^3' .. file_path .. '^7')
+        end
+    else
+        _file = load(file)()
+        if not _file then
+            return warn('loadFile: file failed to load at path ^3' .. file_path .. '^7')
+        end
     end
 
     return _file
@@ -34,6 +50,7 @@ setmetatable(Root, {
     __index = {
         side = _side,
         resource_name = _resource_name,
+        lang = _lang,
 
         LoadFile = loadFile,
     },

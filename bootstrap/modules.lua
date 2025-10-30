@@ -8,7 +8,7 @@ Root.modules.loaded = {}
 ---@param module string
 local function load(module)
     if not module then
-        return warn('loadModule: module is nil')
+        return warn('Root.modules.Load: module is nil')
     end
 
     if Root.modules.loaded[module] then
@@ -18,7 +18,7 @@ local function load(module)
     Root.modules.loaded[module] = Root.LoadFile(('modules/%s/%s'):format(module, Root.side))
 
     if not Root.modules.loaded[module] then
-        return warn(('loadModule: module failed to load at path ^3modules/%s/%s.lua^7'):format(module, Root.side))
+        return warn(('Root.modules.Load: module failed to load at path ^3modules/%s/%s.lua^7'):format(module, Root.side))
     end
 
     
