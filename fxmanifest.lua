@@ -1,7 +1,3 @@
---- @author Atoshi (discord: atoshic17)
---- Created at 2025-30-10
---- Copyright (c) RootCollective - All Rights Reserved
-
 -- Resource metadata (https://docs.fivem.net/docs/scripting-reference/resource-manifest/resource-manifest/)
 fx_version 'cerulean'
 game 'gta5'
@@ -23,6 +19,6 @@ files {
     'modules/**/*.lua'
 }
 
-shared_scripts 'bootstrap/*.lua'
+shared_scripts {'bootstrap/*.lua'}
 
 server_script '@oxmysql/lib/MySQL.lua'
