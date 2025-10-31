@@ -3,6 +3,7 @@
 ---@field resource_name string
 ---@field lang string
 ---@field modules table<string, any>
+---@field bridge table<string, any>
 ---@field locale table<string, string>
 ---@field LoadFile function
 local Root = {}
