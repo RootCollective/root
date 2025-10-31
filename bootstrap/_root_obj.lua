@@ -47,6 +47,8 @@ local function loadFile(path, type)
         end
     end
 
+    collectgarbage('collect')
+
     return result
 end
 

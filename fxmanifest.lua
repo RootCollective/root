@@ -14,9 +14,10 @@ version '1.0.0'
 dependency 'oxmysql'
 
 files {
+    'data/*.json',
     'locales/*.json',
     'bridges/**/**/*.lua',
-    'modules/**/*.lua'
+    'modules/**/*.lua',
 }
 
 shared_scripts {'bootstrap/*.lua'}
