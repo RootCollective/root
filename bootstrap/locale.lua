@@ -1,35 +1,35 @@
 ---@class Root.locale
----@field loaded table<string, string>
----@field Load function
-Root.locale = {}
-Root.locale.loaded = {}
+---@field loaded table<string, table>
+---@field Load fun(lang?: string): table?
+Root.locale = {
+    loaded = {},
+    fallback = 'en'
+}
 
 --- Load a locale file from the resource.
----@param lang string
+---@param lang? string
+---@return table? data
+---@return string? err
 local function load(lang)
-    if not lang then
-        lang = Root.lang
-    end
+    lang = lang or Root.lang or Root.locale.fallback
 
     if Root.locale.loaded[lang] then
         return Root.locale.loaded[lang]
     end
 
-    Root.locale.loaded[lang] = Root.LoadFile(('locales/%s'):format(lang), 'json')
-
-    if not Root.locale.loaded[lang] then
-        return warn('Root.locale.Load: failed to load locale file for language ^3' .. lang .. '^7')
+    local data, err = Root.LoadFile(('locales/%s'):format(lang), 'json')
+    if not data then
+        return nil, ('locale "%s" not found: %s'):format(lang, err or 'unknown')
     end
 
-    return Root.locale.loaded[lang], print('[^5Root^7] Locale ^3' .. lang .. '^7 loaded.')
+    Root.locale.loaded[lang] = data
+    print(('[^5Root^7] Locale ^3%s^7 loaded.'):format(lang))
+    return data
 end
 
 setmetatable(Root.locale, {
     __index = {
         Load = load
     },
-
-    __newindex = function(self, key, value)
-        rawset(self, key, value)
-    end
+    __newindex = rawset
 })

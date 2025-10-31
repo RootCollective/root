@@ -1,36 +1,38 @@
 ---@class Root.modules
 ---@field loaded table<string, any>
 ---@field Load function
-Root.modules = {}
-Root.modules.loaded = {}
+Root.modules = {
+    loaded = {}
+}
 
 --- Load a module from the resource.
 ---@param module string
+---@return any? moduleObject
+---@return string? message
 local function load(module)
-    if not module then
-        return warn('Root.modules.Load: module is nil')
+    if type(module) ~= 'string' or module:match('^%s*$') then
+        warn('Root.modules.Load: module name must be a non-empty string')
+        return nil, 'invalid module name'
     end
 
     if Root.modules.loaded[module] then
-        return Root.modules.loaded[module]
+        return Root.modules.loaded[module], 'cached'
     end
 
-    Root.modules.loaded[module] = Root.LoadFile(('modules/%s/%s'):format(module, Root.side))
+    local path = ('modules/%s/%s'):format(module, Root.side)
+    local chunk = Root.LoadFile(path)
 
-    if not Root.modules.loaded[module] then
-        return warn(('Root.modules.Load: module failed to load at path ^3modules/%s/%s.lua^7'):format(module, Root.side))
+    if not chunk then
+        warn(('Root.modules.Load: module failed to load at path ^3%s^7'):format(path))
+        return nil, 'load failed'
     end
 
-    
-    return Root.modules.loaded[module], print('[^5Root^7] Module ^3' .. module .. '^7 loaded.')
+    Root.modules.loaded[module] = chunk
+    print(('[^5Root^7] Module ^3%s^7 loaded.'):format(module))
+    return chunk, 'loaded'
 end
 
 setmetatable(Root.modules, {
-    __index = {
-        Load = load
-    },
-
-    __newindex = function(self, key, value)
-        rawset(self, key, value)
-    end
+    __index = { Load = load },
+    __newindex = rawset
 })

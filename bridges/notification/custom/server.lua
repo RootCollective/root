@@ -1,5 +1,5 @@
 return {
     test = function ()
-        print('test bridge')
+        print('test brisddge')
     end
 }

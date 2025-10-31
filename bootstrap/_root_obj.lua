@@ -5,67 +5,69 @@
 ---@field modules table<string, any>
 ---@field bridge table<string, any>
 ---@field locale table<string, string>
----@field LoadFile function
+---@field LoadFile fun(self: Root, path: string, type?: 'lua'|'json'): any
 local Root = {}
-local _side <const> = (IsDuplicityVersion() and 'server') or 'client'
-local _resource_name <const> = GetCurrentResourceName()
-local _lang = GetConvar('root:lang', 'en')
+
+local _SIDE <const> = (IsDuplicityVersion() and 'server') or 'client'
+local _RESOURCE_NAME <const> = GetCurrentResourceName()
+local _LANG <const> = GetConvar('root:lang', 'en')
 
 --- Load a file from the resource.
 ---@param path string
----@param type string
+---@param type? 'lua'|'json'  -- defaults to 'lua'
+---@return any?  -- returns nil + warning on failure
 local function loadFile(path, type)
-    if not path then
-        return warn('loadFile: path is nil')
+    if type and (type ~= 'lua' and type ~= 'json') then
+        warn('Root.LoadFile: invalid type provided')
+        return nil
     end
 
-    if not type then
-        type = 'lua'
-    end
+    type = (type == 'json') and 'json' or 'lua'
 
-    local file_path = ("%s.%s"):format(path, type)
-    local file = LoadResourceFile(_resource_name, file_path)
+    local file_path = ('%s.%s'):format(path, type)
+    local file = LoadResourceFile(_RESOURCE_NAME, file_path)
 
     if not file then
-        return warn('loadFile: file not found at path ^3' .. file_path .. '^7')
+        warn(('Root.LoadFile: file not found at path ^3%s^7'):format(file_path))
+        return nil
     end
 
-    local _file
-
+    local ok, result
     if type == 'json' then
-        _file = json.decode(file)
-        if not _file then
-            return warn('loadFile: failed to decode JSON at path ^3' .. file_path .. '^7')
+        ok, result = pcall(json.decode, file)
+        if not ok then
+            warn(('Root.LoadFile: JSON decode failed at path ^3%s^7'):format(file_path))
+            return nil
         end
     else
-        _file = load(file)()
-        if not _file then
-            return warn('loadFile: file failed to load at path ^3' .. file_path .. '^7')
+        ok, result = pcall(load(file))
+        if not ok or result == nil then
+            warn(('Root.LoadFile: Lua load failed at path ^3%s^7'):format(file_path))
+            return nil
         end
     end
 
-    return _file
+    return result
 end
 
-setmetatable(Root, {
+local mt = {
     __index = {
-        side = _side,
-        resource_name = _resource_name,
-        lang = _lang,
-
-        LoadFile = loadFile,
+        side          = _SIDE,
+        resource_name = _RESOURCE_NAME,
+        lang          = _LANG,
+        LoadFile      = loadFile,
     },
 
-    __newindex = function(self, key, value)
-        rawset(self, key, value)
+    __newindex = function(_, k, v)
+        rawset(Root, k, v)
     end,
 
     __call = function(self)
-        if self.side then
-            print('[^5Root^7] Root object initialized on ^3' .. self.side .. '^7 side.')
-        end
-    end
-})
+        print(('[^5Root^7] initialized on ^3%s^7 side'):format(self.side))
+    end,
+}
+
+setmetatable(Root, mt)
 
 _ENV.Root = Root
 
