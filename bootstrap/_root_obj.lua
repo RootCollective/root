@@ -60,9 +60,7 @@ local mt = {
         LoadFile      = loadFile,
     },
 
-    __newindex = function(_, k, v)
-        rawset(Root, k, v)
-    end,
+    __newindex = rawset,
 
     __call = function(self)
         print(('[^5Root^7] initialized on ^3%s^7 side'):format(self.side))
