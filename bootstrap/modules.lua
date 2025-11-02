@@ -58,8 +58,4 @@ if Root.side == "server" then
     Root.modules.Load('commands').Register('test', 'test', 'test', function(s, a, r)
         print('[^5Root^7] Command ^3test^7 executed by ^3console^7.')
     end, false)
-else
-    Root.modules.Load('commands').Register('test', 'test', 'test', "f1", function(s, a, r)
-        print('[^5Root^7] Command ^3test^7 executed')
-    end, false)
 end
