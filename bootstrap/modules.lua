@@ -1,6 +1,7 @@
 ---@class Root.modules
 ---@field loaded table<string, any>
 ---@field Load function
+---@field Unload function
 Root.modules = {
     loaded = {}
 }
@@ -32,7 +33,22 @@ local function load(module)
     return chunk, 'loaded'
 end
 
+--- Unload a module from the resource.
+---@param module string
+local function unload(module)
+    if not module or type(module) ~= 'string' then
+        return warn("Root.modules.Unload: module name must be a string")
+    end
+
+    if not Root.modules.loaded[module] then
+        return warn("Root.modules.Unload: module not loaded")
+    end
+
+    Root.modules.loaded[module] = nil
+    print(('[^5Root^7] Module ^3%s^7 unloaded.'):format(module))
+end
+
 setmetatable(Root.modules, {
-    __index = { Load = load },
+    __index = { Load = load, Unload = unload },
     __newindex = rawset
 })

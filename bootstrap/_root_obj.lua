@@ -4,8 +4,10 @@
 ---@field lang string
 ---@field modules table<string, any>
 ---@field bridge table<string, any>
+---@field cache table<string, any>
+---@field commands table<string, table>
 ---@field locale table<string, string>
----@field LoadFile fun(self: Root, path: string, type?: 'lua'|'json'): any
+---@field LoadFile fun(path: string, type?: 'lua'|'json'): any
 local Root = {}
 
 local _SIDE <const> = (IsDuplicityVersion() and 'server') or 'client'
@@ -52,7 +54,7 @@ local function loadFile(path, type)
     return result
 end
 
-local mt = {
+local _MT <const> = {
     __index = {
         side          = _SIDE,
         resource_name = _RESOURCE_NAME,
@@ -63,11 +65,11 @@ local mt = {
     __newindex = rawset,
 
     __call = function(self)
-        print(('[^5Root^7] initialized on ^3%s^7 side'):format(self.side))
+        print(('[^5Root^7] Root class initialized on ^3%s^7 side.'):format(self.side))
     end,
 }
 
-setmetatable(Root, mt)
+setmetatable(Root, _MT)
 
 _ENV.Root = Root
 
