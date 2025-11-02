@@ -95,9 +95,11 @@ local function send(webhook, title, description, fields, options)
                 return warn(('Root.logs.Send: field %d must have name and value'):format(i))
             end
             
-            if #field.name > 256 then
+            if type(field.name) == 'string' and #field.name > 256 then
                 field.name = field.name:sub(1, 253) .. "..."
             end
+            
+            field.value = tostring(field.value)
             if #field.value > 1024 then
                 field.value = field.value:sub(1, 1021) .. "..."
             end

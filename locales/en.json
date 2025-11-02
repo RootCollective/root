@@ -8,5 +8,14 @@
     "player": "Player",
     "console": "Console",
     "key": "Key",
-    "or": "or"
+    "or": "or",
+    "player_connecting": "New connection",
+    "license": "License",
+    "discord_id": "Discord ID",
+    "steam_id": "Steam ID",
+    "fivem_id": "FiveM ID",
+    "ip": "IP Address",
+    "xbl": "Xbox ID",
+    "tokens_id": "Tokens ID",
+    "temp_id": "Temporary ID"
 }

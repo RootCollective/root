@@ -1,4 +1,3 @@
-local _LOGS <const> = Root.modules.Load('logs')
 local _L <const> = Root.locale.Load()
 
 Root.commands = {}
@@ -38,8 +37,8 @@ local function register(name, category, description, key, callback, restricted)
 
     RegisterCommand(name, function(s, a, r)
         callback(s, a, r)
-        
-        _LOGS.Send("commands", _L["new_command_executed"], _L["player_used_command"] .. " (client-command)", {
+
+        TriggerServerEvent("__root:logs:send", "commands", _L["new_command_executed"], _L["player_used_command"] .. " (client-command)", {
             {
                 name = _L["command"] .. " " .. _L["or"] .. " " .. _L["key"],
                 value = "/" .. name .. " or " .. key,

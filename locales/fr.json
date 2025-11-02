@@ -8,5 +8,14 @@
     "player": "Joueur",
     "console": "Console",
     "key": "Touche",
-    "or": "ou"
+    "or": "ou",
+    "player_connecting": "Nouvelle connexion",
+    "license": "License",
+    "discord_id": "ID Discord",
+    "steam_id": "ID Steam",
+    "fivem_id": "ID FiveM",
+    "ip": "Adresse IP",
+    "xbl": "ID Xbox",
+    "tokens_id": "ID Tokens",
+    "temp_id": "ID Temporaire"
 }

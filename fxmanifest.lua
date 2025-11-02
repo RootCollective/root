@@ -24,4 +24,4 @@ shared_scripts {'bootstrap/*.lua'}
 
 server_script '@oxmysql/lib/MySQL.lua'
 
-server_scripts {'modules/**/events/*.lua'}
+server_scripts {'modules/**/events/*.lua', 'managers/**/server.lua'}
