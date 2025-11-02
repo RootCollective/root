@@ -47,7 +47,7 @@ local function register(name, category, description, callback, restricted)
                 inline = true
             },
             {
-                name = _L["ID"],
+                name = _L["id"],
                 value = (s == 0 and _L["console"] or s),
                 inline = true
             },

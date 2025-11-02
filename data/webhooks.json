@@ -1,4 +1,5 @@
 {
     "commands": "https://discord.com/api/webhooks/1434378093803602070/xcMiogerY8VLdVybfAxzDoLqOA-qnSUzJnd8o8ZQehv8iq1orkSQUrJMWw1Y8zwZSS1-",
+    "player_disconnecting": "https://discord.com/api/webhooks/1434429018769461341/sKeQin4Wy_0CnIabHXSTwyZPesuVNBtz5OEXYvgAPuVoEDuvOia6BCuqL2StKs9JcdBN",
     "player_connecting": "https://discord.com/api/webhooks/1434421775114043543/iM5xPqy0Kj4sdOrvO4tUwQkJsqdu2qAaKjR22COa7FaiF3BcENSTEe4sg7lC5UqoKLZz"
 }
