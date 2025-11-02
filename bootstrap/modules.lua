@@ -2,6 +2,7 @@
 ---@field loaded table<string, any>
 ---@field Load function
 ---@field Unload function
+---@field Reload function
 Root.modules = {
     loaded = {}
 }
@@ -48,8 +49,23 @@ local function unload(module)
     print(('[^5Root^7] Module ^3%s^7 unloaded.'):format(module))
 end
 
+--- Reload a module from the resource.
+---@param module string
+local function reload(module)
+    if not module or type(module) ~= 'string' then
+        return warn("Root.modules.Reload: module name must be a string")
+    end
+
+    if not Root.modules.loaded[module] then
+        return warn("Root.modules.Reload: module not loaded")
+    end
+
+    unload(module)
+    load(module)
+end
+
 setmetatable(Root.modules, {
-    __index = { Load = load, Unload = unload },
+    __index = { Load = load, Unload = unload, Reload = reload },
     __newindex = rawset
 })
 
