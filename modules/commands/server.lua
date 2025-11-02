@@ -13,7 +13,7 @@ local function register(name, category, description, callback, restricted)
     if not category or type(category) ~= 'string' then
         return warn("Register command: category must be a string")
     end
-    
+
     if not description or type(description) ~= 'string' then
         return warn("Register command: description must be a string")
     end
@@ -23,7 +23,7 @@ local function register(name, category, description, callback, restricted)
         description = description,
         restricted = restricted or false
     }
-    
+
     return RegisterCommand(name, callback, restricted or false), print(('[^5Root^7] Command ^3%s^7 registered in category ^3%s^7.'):format(name, category))
 end
 
