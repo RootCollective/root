@@ -1,3 +1,10 @@
 {
-    "Hello": "Bonjour !"
+    "new_command_executed": "Nouvelle commande exécutée",
+    "player_used_command": "Un joueur vient d'utiliser une commande",
+    "command": "Commande",
+    "description": "Description",
+    "category": "Catégorie",
+    "ID": "ID",
+    "player": "Joueur",
+    "console": "Console"
 }

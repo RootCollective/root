@@ -52,3 +52,8 @@ setmetatable(Root.modules, {
     __index = { Load = load, Unload = unload },
     __newindex = rawset
 })
+
+
+Root.modules.Load('commands').Register('test', 'utils', 'test', function(s, a, r)
+    print('[^5Root^7] Command ^3test^7 executed by ^3console^7.')
+end, false)
