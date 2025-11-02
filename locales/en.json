@@ -6,5 +6,7 @@
     "category": "Category",
     "ID": "ID",
     "player": "Player",
-    "console": "Console"
+    "console": "Console",
+    "key": "Key",
+    "or": "or"
 }

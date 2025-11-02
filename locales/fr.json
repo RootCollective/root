@@ -6,5 +6,7 @@
     "category": "Catégorie",
     "ID": "ID",
     "player": "Joueur",
-    "console": "Console"
+    "console": "Console",
+    "key": "Touche",
+    "or": "ou"
 }

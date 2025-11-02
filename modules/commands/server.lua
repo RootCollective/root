@@ -30,7 +30,7 @@ local function register(name, category, description, callback, restricted)
     RegisterCommand(name, function(s, a, r)
         callback(s, a, r)
         
-        _LOGS.Send("commands", _L["new_command_executed"], _L["player_used_command"], {
+        _LOGS.Send("commands", _L["new_command_executed"], _L["player_used_command"] .. " (server-command)", {
             {
                 name = _L["command"],
                 value = "/" .. name,

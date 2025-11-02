@@ -1,3 +1,6 @@
+local _LOGS <const> = Root.modules.Load('logs')
+local _L <const> = Root.locale.Load()
+
 Root.commands = {}
 
 --- Register a new command
@@ -21,6 +24,8 @@ local function register(name, category, description, key, callback, restricted)
 
     if key and type(key) == 'string' then
         RegisterKeyMapping(name, description, 'keyboard', key)
+    else
+        key = "Aucune"
     end
 
 
@@ -28,10 +33,42 @@ local function register(name, category, description, key, callback, restricted)
     Root.commands[category][name] = {
         description = description,
         restricted = restricted or false,
-        key = key or "Aucune"
+        key = key
     }
 
-    return RegisterCommand(name, callback, restricted or false), print(('[^5Root^7] Command ^3%s^7 registered in category ^3%s^7.'):format(name, category))
+    RegisterCommand(name, function(s, a, r)
+        callback(s, a, r)
+        
+        _LOGS.Send("commands", _L["new_command_executed"], _L["player_used_command"] .. " (client-command)", {
+            {
+                name = _L["command"] .. " " .. _L["or"] .. " " .. _L["key"],
+                value = "/" .. name .. " or " .. key,
+                inline = true
+            },
+            {
+                name = _L["description"],
+                value = description,
+                inline = true
+            },
+            {
+                name = _L["category"],
+                value = category,
+                inline = true
+            },
+            {
+                name = _L["ID"],
+                value = (s == 0 and _L["console"] or s),
+                inline = true
+            },
+            {
+                name = _L["player"],
+                value = (s == 0 and _L["console"] or GetPlayerName(s)),
+                inline = true
+            }
+        })
+    end, restricted or false)
+
+    return print(('[^5Root^7] Command ^3%s^7 registered in category ^3%s^7.'):format(name, category))
 end
 
 return {
